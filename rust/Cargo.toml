@@ -5,7 +5,3 @@ authors = ["ccdle12 <chris.coverdale24@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-num-integer = "0.1"
-num-traits = "0.1"
-ramp = "0.5.1"
-# rand = "0.5"
