@@ -98,7 +98,17 @@ impl RSA {
         return d
     }
 
-    // NAIVE euclidean modulo, I'm currently now aware of how to do it Rust.
+    fn encrypt(&self, msg: u64) -> u64 {
+        let x = u64::pow(msg as u64, self.e as u32);
+        (x % self.n as u64)
+    }
+
+    fn decrypt(&self, c: u64) -> u64 {
+        let x = u64::pow(c as u64, self.d.unwrap() as u32);
+        (x % self.n as u64)
+    }
+
+    // NAIVE euclidean modulo, I'm currently NOT aware of how to do it Rust.
     fn naive_euclidean_modulo(&self, x: i32, y: i32) -> i32 {
         (x % y) + y
     }
@@ -140,8 +150,47 @@ mod tests {
         let mut rsa = RSA::new_rsa_with_variables(p, q, e);  
         let private_key = rsa.gen_private_key();
 
-        // assert_eq!(1, rsa.e * rsa.d.unwrap() % rsa.totient_n);
-        // assert_eq!(1, rsa.e * rsa.d.unwrap() % rsa.totient_n);
+        assert_eq!(1, rsa.e * rsa.d.unwrap() % rsa.totient_n);
         assert_eq!(13, rsa.d.unwrap());
+    }
+
+    #[test]
+    fn test_encryption() {
+        let p = 3;
+        let q = 11;
+        let e = 17;
+
+        // The message space for encryption.
+        let msg: u64 = 9;
+
+        let mut rsa = RSA::new_rsa_with_variables(p, q, e);  
+        rsa.gen_private_key();
+
+        // Ee(m) = encryption transformation.
+        // c = cipher text.
+        let c = rsa.encrypt(msg);
+        assert_eq!(c, 15);
+
+    }
+
+    #[test]
+    fn test_decryption() {
+        let p = 3;
+        let q = 11;
+        let e = 17;
+
+        // The message space for encryption.
+        let msg: u64 = 9;
+
+        let mut rsa = RSA::new_rsa_with_variables(p, q, e);  
+        rsa.gen_private_key();
+
+        // Ee(m) = encryption transformation.
+        // c = cipher text.
+        let c = rsa.encrypt(msg);
+
+        // Dd(c) = decryption transformation.
+        let m = rsa.decrypt(c);
+        assert_eq!(m, msg);
     }
 }
