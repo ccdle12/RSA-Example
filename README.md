@@ -52,3 +52,40 @@ m = c^d mod n
 ### Extended Euclidean Algorithm and Private Key Calculation
 
 Arguably the most difficult part of the algorithm is efficiently calculating the Private Key since we need to find **multiplicative inverse**, within the order of **n-1**. Given extremely large numbers an exhaustive search from **0 to n-1** would be infeasible.
+
+#### 1. Euclidean Algorithm
+
+We need to first calculate the **gcd(e, φ(n))**. We can achieve this by a simple recursive function.
+
+```
+gcd(m, n) -> int:
+    if n == 0: return m
+    return gcd(n, m % n)
+```
+For each level of recursion, we can calculate the remainder of **m % n**. Once we reach the base case **n == 0**, we return **m** which is the previous remainder.
+
+#### 2. Extended Euclidean Algorithm
+
+The extended Euclidean Algorithm is used to calculate **x,y** numbers that when given
+
+```
+ax + by = gcd(a,b)
+```
+
+In otherwise, x and y are numbers that when used in the formula above will equal the greatest commono divisor of **a,b**.
+
+**x,y** are known as **bezoutes coefficients**.
+
+In the context of the RSA...
+
+**x** is the modular inverse of **e-1 mod φ(n)** ...meaning `e * d ≡ 1 (mod φ(n))`. 
+
+**x** becomes the **Private Key** = **d**.
+
+We know if we have found the **modular inverse** when
+
+```
+e * d ≡ 1 (mod φ(n))
+```
+
+...Or in other words, e multiplied by d modulo the totient n equals 1.
