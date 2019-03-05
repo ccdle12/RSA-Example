@@ -72,7 +72,7 @@ The extended Euclidean Algorithm is used to calculate **x,y** numbers that when 
 ax + by = gcd(a,b)
 ```
 
-In otherwise, x and y are numbers that when used in the formula above will equal the greatest commono divisor of **a,b**.
+In otherwords, x and y are numbers that when used in the formula above will equal the greatest common divisor of **a,b**.
 
 **x,y** are known as **bezoutes coefficients**.
 
