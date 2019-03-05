@@ -89,3 +89,49 @@ e * d ≡ 1 (mod φ(n))
 ```
 
 ...Or in other words, e multiplied by d modulo the totient n equals 1.
+
+#### 3. Implementation
+To find the modular inverse, we need to perform two steps:
+1. Use Euclids Algorithm to the the gcd(a,b)
+2. Reverse the steps, substituting the previous equation in terms of the gcd.
+
+#### Example:
+
+```
+17x ≡ 1 (mod 43)
+
+a = 17
+b = 43
+
+1. Find the gcd(a,b)
+
+a = b * (a/b) + r
+(a/b) = the quotient denoted as q
+
+43 = 17 * 2 + 9
+
+Shift the values
+a = b
+r = b
+
+17 = 9 * 1 + 8
+9 = 8 * 1 + 1 <- GCD
+8 = 1 * 1 + 0
+
+2. Find the modular inverse
+We have found the GCD to be 1. We now move on to step two, reversing the equation and replacing the previous function in terms of a.
+
+1 = 9 - 8 * 1 <- We have changed 9 = 8 * 1 + 1 in terms of 1 (the remainder)
+1 = 9 - (17 - 9 * 1) <- We have replaced (8 * 1) with the previous equation in terms of r.
+1 = 9 - 17 + 9 <- Dropped *1 since its not needed and turned the double negative to a positive "- - = +"
+1 = 2(9) - 17 <- Combined like terms, there are two 9s.
+1 = 2(43 - 17 * 2) + 17 <- Replace the 9 with the previous equation in terms of r.
+1 = 2 * 43 - 4 * 17 - 17 <- Expanded the brackets, 2*2 as -4 since we are swapping -17 to 17.
+1 = 2 * 43 - 5 * 17 <- Since two 17s, it's the equivalent of -5 * 17
+1 = 2 * 43 - 5 * 17 <- 2 * 43 is 0 since we are modding by 43 so we can remove it.
+1 = -5 * 17 <- -5 is the inverse.
+
+17 * -5 ≡ 1 (mod 43)
+
+
+```
